@@ -3,9 +3,6 @@ from fastapi import APIRouter, Response
 from app.users.schemas import SUser, SUserCreate
 from app.users.services import UserService
 
-from sqlalchemy.ext.asyncio import AsyncSession
-from app.database import async_session_maker
-
 router = APIRouter(
     prefix="/users",
     tags=["Пользователи"],
