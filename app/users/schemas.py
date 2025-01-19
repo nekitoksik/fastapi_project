@@ -16,3 +16,12 @@ class SUser(BaseModel):
         from_attributes = True
 
        
+       
+class SUserCreate(BaseModel):
+    name: str
+    photo_url: str
+    height: int
+    weight: int
+    about: str
+    city: str
+    steps: int

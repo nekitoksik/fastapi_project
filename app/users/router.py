@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Response
 
-from app.users.schemas import SUser
+from app.users.schemas import SUser, SUserCreate
 from app.users.services import UserService
 
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -17,8 +17,8 @@ async def get_users() -> list[SUser]:
 
     return result
 
-@router.post("", response_model=SUser, status_code=201)
-async def create_user(user: SUser):
+@router.post("", response_model=SUserCreate, status_code=201)
+async def create_user(user: SUserCreate):
     return await UserService.create_user(user)
 
 

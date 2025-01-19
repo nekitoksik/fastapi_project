@@ -2,7 +2,7 @@ from fastapi import HTTPException
 from app.users.models import Users
 from app.services.base import BaseService
 
-from app.users.schemas import SUser
+from app.users.schemas import SUser, SUserCreate
 
 from app.database import async_session_maker
 from sqlalchemy import select, delete
@@ -11,7 +11,7 @@ class UserService(BaseService):
     model = Users
 
     @classmethod
-    async def create_user(cls, user_data: SUser) -> SUser:
+    async def create_user(cls, user_data: SUserCreate) -> SUser:
         """Создает нового пользователя."""
         async with async_session_maker() as session:
             db_user = Users(**user_data.model_dump(exclude_unset=True))
