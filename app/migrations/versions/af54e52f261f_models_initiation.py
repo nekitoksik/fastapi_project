@@ -1,8 +1,8 @@
-"""empty message
+"""models initiation
 
-Revision ID: 409d5be8951f
+Revision ID: af54e52f261f
 Revises: 
-Create Date: 2025-01-18 18:16:20.499703
+Create Date: 2025-01-19 18:15:03.304037
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '409d5be8951f'
+revision: str = 'af54e52f261f'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -38,12 +38,12 @@ def upgrade() -> None:
     sa.Column('weight', sa.Integer(), nullable=True),
     sa.Column('about', sa.Text(), nullable=True),
     sa.Column('city', sa.String(length=255), nullable=True),
+    sa.Column('steps', sa.Integer(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('friendship',
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('friend_id', sa.Integer(), nullable=False),
-    sa.CheckConstraint('user_id <> friend_id'),
     sa.ForeignKeyConstraint(['friend_id'], ['users.id'], ondelete='CASCADE'),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('user_id', 'friend_id')

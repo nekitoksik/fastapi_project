@@ -1,30 +1,18 @@
 
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
 
 class SUser(BaseModel):
     id: int
     name: str
-    password: str
-    email: str
+    photo_url: str
+    height: int
+    weight: int
+    about: str
+    city: str
+    steps: int
 
 
     class Config:
         from_attributes = True
 
        
-       
-class SUserAuth(BaseModel):
-    email: EmailStr
-    password: str
-    
-
-class SUserRegister(BaseModel):
-    email: EmailStr
-    password: str
-    name: str
-
-
-class SUserSecure(BaseModel):
-    id: int
-    email: EmailStr
-    name: str

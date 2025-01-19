@@ -1,6 +1,15 @@
 from app.database import Base
-from sqlalchemy import Column, Integer, String, Text
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, String, Text, Table, ForeignKey
+from sqlalchemy.orm import relationship, backref
+
+
+friendship = Table(
+    "friendship",
+    Base.metadata,
+    Column("user_id", Integer, ForeignKey("users.id", ondelete="CASCADE"), primary_key=True),
+    Column("friend_id", Integer, ForeignKey("users.id", ondelete="CASCADE"), primary_key=True),
+)
+
 
 class Users(Base):
     __tablename__ = "users"
@@ -11,12 +20,14 @@ class Users(Base):
     weight = Column(Integer)
     about = Column(Text)
     city = Column(String(255))
+    steps = Column(Integer)
+    
 
     friends = relationship(
-        "app.users.models.Users",  # Полный путь
-        secondary="app.friendship.models.Friendship",  # Полный путь к Friendship
-        primaryjoin="app.users.models.Users.id==app.friendship.models.Friendship.user_id",  # Полный путь
-        secondaryjoin="app.users.models.Users.id==app.friendship.models.Friendship.friend_id",  # Полный путь
-        backref="friend_of",
+        "Users",
+        secondary=friendship,
+        primaryjoin=(friendship.c.user_id == id),
+        secondaryjoin=(friendship.c.friend_id == id),
+        backref=backref("friend_of", lazy='selectin'),
         lazy='selectin'
     )
