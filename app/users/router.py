@@ -23,3 +23,10 @@ async def create_user(user: SUserCreate):
 async def delete_user(user_id: int):
     await UserService.delete_user(user_id)
     return {}
+
+
+@router.get("/friends/{user_id}")
+async def get_user_friends(user_id: int):
+    result = await UserService.get_friends_by_id(user_id)
+
+    return result
