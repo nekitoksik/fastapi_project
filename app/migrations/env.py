@@ -16,6 +16,7 @@ from app.users.models import Users
 from app.tasks.models import Tasks
 from app.runstats.models import RunStats
 from app.taskProgress.models import UserTaskProgress
+from app.admins.models import Admins
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
