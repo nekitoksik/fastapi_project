@@ -34,17 +34,3 @@ class UserService(BaseService):
                 raise HTTPException(status_code=500, detail="Пользователь не удален")
             except:
                 pass
-
-
-    @classmethod
-    async def get_friends_by_id(cls, user_id: int) -> list[dict]:
-        async with async_session_maker() as session:
-            user = await session.get(cls.model, user_id, options=[selectinload(cls.model.friends)])
-            if not user:
-                return []
-        
-        friends_data = []
-        for friend in user.friends:
-            friends_data.append({"id": friend.id, "name": friend.name, "steps": friend.steps})
-
-        return friends_data
