@@ -17,3 +17,13 @@ async def get_friends(user_id: int):
 async def send_friend_request(requester_id: int, recipient_id: int):
     result = await FriendServices.send_friend_request(requester_id, recipient_id)
     return result
+
+@router.post("/accept")
+async def accept_friend_request(user_id: int, friend_id: int):
+
+    return await FriendServices.accept_friend_request(user_id, friend_id)
+
+@router.post("/delete")
+async def delete_friend(user_id: int, friend_id: int):
+
+    return await FriendServices.delete_from_friends(user_id, friend_id)

@@ -18,7 +18,6 @@ class Users(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
-    phone_number = Column(String, unique=True, index=True, nullable=False)
     name = Column(String(255), nullable=False)
     photo_url = Column(String(255))
     height = Column(Integer)

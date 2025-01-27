@@ -7,7 +7,9 @@ class STask(BaseModel):
     target_type: str
     target_value: int
     reward: int
+    description: str
     image_path: str
+    
 
     class Config:
         from_attributes = True
@@ -18,4 +20,5 @@ class STaskCreate(BaseModel):
     target_type: str
     target_value: int
     reward: int
+    description: str
     image_path: str

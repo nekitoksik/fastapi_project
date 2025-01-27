@@ -90,3 +90,61 @@ class FriendServices(BaseService):
                 )
                 for friend in all_friends
             ]
+        
+    @classmethod
+    async def accept_friend_request(cls, user_id: int, friend_id: int):
+        async with async_session_maker() as session:
+
+            user = await session.get(Users, user_id)
+            friend = await session.get(Users, friend_id)
+
+            if user_id == friend_id:
+                raise HTTPException(status_code=404, detail="User id and Friend id is equal!")
+            elif not user or not friend:
+                raise HTTPException(status_code=404, detail="User or friend not found")
+
+            friends = await session.execute(select(Friendship).filter(
+                Friendship.requester_id == friend_id,
+                Friendship.recipient_id == user_id
+            ))
+
+            friends = friends.scalars().first()
+
+            if friends:
+                if friends.status in [FriendshipStatus.PENDING, FriendshipStatus.REJECTED]:
+                    friends.status = FriendshipStatus.ACCEPTED
+                    await session.commit()
+                    return "Друг добавлен! Статус изменен"
+                else:
+                    return "Статус дружбы уже принят или отклонен."
+            else:
+                return "Запись о дружбе не найдена."
+            
+    @classmethod
+    async def delete_from_friends(cls, user_id: int, friend_id: int):
+        async with async_session_maker() as session:
+
+            user = await session.get(Users, user_id)
+            friend = await session.get(Users, friend_id)
+
+            if user_id == friend_id:
+                raise HTTPException(status_code=404, detail="User id and Friend id is equal!")
+            elif not user or not friend:
+                raise HTTPException(status_code=404, detail="User or friend not found")
+            
+            friends = await session.execute(select(Friendship).filter(
+                (Friendship.requester_id == friend_id) & (Friendship.recipient_id == user_id) |
+                (Friendship.recipient_id == friend_id) & (Friendship.requester_id == user_id)
+            ))
+
+            friends = friends.scalars().first()
+
+            if friends:
+                if friends.status in [FriendshipStatus.ACCEPTED, FriendshipStatus.REJECTED]:
+                    friends.status = FriendshipStatus.REJECTED
+                    await session.commit()
+                    return "Пользователь удален из друзей!"
+                else:
+                    return "Пользователь не является вашим другом"
+            else:
+                return "Запись о дружбе не найдена."
