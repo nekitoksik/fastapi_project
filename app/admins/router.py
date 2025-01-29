@@ -31,19 +31,8 @@ async def login_user(response: Response, admin_data: SAdminAuth):
     if not admin:
         raise IncorrectUserEmailOrPasswordException
     access_token = create_access_token({"sub": str(admin.id)})    
-    response.set_cookie(
-        "tatrun_token", 
-        access_token, 
-        httponly=True, 
-        samesite="None",  
-        secure=True  
-    )
-
-    json_response = JSONResponse(content={"access_token": access_token})
-    json_response.headers["Access-Control-Allow-Origin"] = "http://aikanadmin.ru"
-    json_response.headers["Access-Control-Allow-Credentials"] = "true"
-    
-    return json_response
+    response.set_cookie("tatrun_token", access_token, httponly=True)
+    return access_token
 
 
 @router.post("/logout")
