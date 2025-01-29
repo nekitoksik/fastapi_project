@@ -12,7 +12,7 @@ app = FastAPI()
 # Настройка CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # Укажите разрешенные источники (можно использовать ["*"] для всех)
+    allow_origins=["http://aikanadmin.ru"],  # Укажите разрешенные источники (можно использовать ["*"] для всех)
     allow_credentials=True,
     allow_methods=["*"],  # Разрешить все методы (GET, POST, DELETE и т.д.)
     allow_headers=["*"],  # Разрешить все заголовки
