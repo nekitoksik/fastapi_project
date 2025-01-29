@@ -25,3 +25,6 @@ class RunStatsService(BaseService):
             result = await session.execute(query)
         
             return result.scalars().all()
+        
+    # @classmethod
+    # async def add_runstat(cls, run_data: )

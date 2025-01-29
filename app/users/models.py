@@ -3,10 +3,6 @@ from app.database import Base
 from sqlalchemy import Boolean, Column, DateTime, Integer, String, Text, Table, ForeignKey, Enum
 from sqlalchemy.orm import relationship, backref
 
-class UserRole(enum.Enum):
-    USER = "user"
-    ADMIN = "admin"
-
 
 class FriendshipStatus(enum.Enum):
     PENDING = "pending"
@@ -27,8 +23,6 @@ class Users(Base):
     steps = Column(Integer, default=0)
     points = Column(Integer, default=0)
     created_at = Column(DateTime)
-    is_admin = Column(Boolean, default=False)
-    role = Column(Enum(UserRole), default=UserRole.USER)
 
     # Relationships для удобства доступа к друзьям
     friendships = relationship("Friendship", foreign_keys="Friendship.requester_id")

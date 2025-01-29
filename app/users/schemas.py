@@ -18,7 +18,6 @@ class SUser(BaseModel):
        
 class SUserCreate(BaseModel):
     name: str
-    photo_url: str
     height: int
     weight: int
     about: str
