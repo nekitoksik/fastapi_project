@@ -40,7 +40,6 @@ async def login_user(response: Response, admin_data: SAdminAuth):
     return access_token
 
 
-
 @router.post("/logout")
 async def logout_user(response: Response):
     response.delete_cookie("tatrun_token")
