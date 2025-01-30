@@ -17,14 +17,47 @@ class UserService(BaseService):
     model = Users
 
     @classmethod
-    async def create_user(cls, user_data: SUserCreate) -> SUser:
-        """Создает нового пользователя."""
+    async def create_user(cls, user_data: SUserCreate, photo: UploadFile = None) -> SUser:
         async with async_session_maker() as session:
             db_user = Users(**user_data.model_dump(exclude_unset=True))
             session.add(db_user)
             await session.commit()
             await session.refresh(db_user)
+
+            if photo:
+                Path(IMAGE_DIR).mkdir(parents=True, exist_ok=True)
+
+                try:
+                    image = Image.open(photo.file)
+                    file_extension = photo.filename.split(".")[-1].lower()
+                    file_path = os.path.join(IMAGE_DIR, f"photo{db_user.id}.{file_extension}")
+
+                    image.save(file_path)
+                    db_user.photo_url = file_path
+
+                    session.add(db_user)
+                    await session.commit()
+                    await session.refresh(db_user)
+
+                except Exception as e:
+                    print(f"Error saving image: {e}")
+                    raise HTTPException(status_code=500, detail="Error saving image")
+                
             return SUser.model_validate(db_user)
+    
+    
+    # async def create_user(cls, user_data: SUserCreate) -> SUser:
+    #     """Создает нового пользователя."""
+    #     async with async_session_maker() as session:
+    #         db_user = Users(**user_data.model_dump(exclude_unset=True))
+    #         session.add(db_user)
+    #         await session.commit()
+    #         await session.refresh(db_user)
+    #         return SUser.model_validate(db_user)
+        
+
+
+
     # async def create_user(
     #     avatar: Annotated[UploadFile, File(description="User avatar image")],
     #     name: Annotated[str, Form()],

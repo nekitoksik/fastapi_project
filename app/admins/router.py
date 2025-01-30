@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Response
+from fastapi import APIRouter, Response, HTTPException
 from app.exceptions import IncorrectUserEmailOrPasswordException, UserAlreadyExcist
 
 from app.admins.models import Admins
@@ -27,6 +27,11 @@ async def register_admin(admin_data: SAdminAuth):
 @router.post("/login")
 async def login_user(response: Response, admin_data: SAdminAuth):
     
+    existing_admin = await AdminService.find_one_or_none(email=admin_data.email)
+
+    if not existing_admin:
+        raise HTTPException(status_code=404, detail="User not found")
+
     admin = await verify_user(admin_data.email, admin_data.password)
     if not admin:
         raise IncorrectUserEmailOrPasswordException
