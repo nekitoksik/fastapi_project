@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Response
+from fastapi import APIRouter, Response, UploadFile, File, Form
 
 from app.tasks.schemas import STask, STaskCreate
 from app.tasks.services import TaskService
@@ -14,9 +14,26 @@ async def get_tasks() -> list[STask]:
 
     return result
 
-@router.post("", response_model=STaskCreate, status_code=201)
-async def create_task(task: STaskCreate):
-    return await TaskService.create_task(task)
+@router.post("", response_model=STask, status_code=201)
+async def create_task(
+    name: str = Form(...),
+    task_type: str = Form(...),
+    target_type: str = Form(...),
+    target_value: int = Form(...),
+    reward: int = Form(...),
+    description: str = Form(...),
+    photo: UploadFile = File(None)
+) -> STask:
+    task_data = STaskCreate(
+        name=name,
+        task_type=task_type,
+        target_type=target_type,
+        target_value=target_value,
+        reward=reward,
+        description=description
+    )
+
+    return await TaskService.create_task(task_data=task_data, photo=photo)
 
 
 @router.delete("/{task_id}", status_code=204)

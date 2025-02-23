@@ -21,4 +21,4 @@ class STaskCreate(BaseModel):
     target_value: int
     reward: int
     description: str
-    image_path: str
+

@@ -10,9 +10,9 @@ class TaskType(enum.Enum):
 
 
 class TargetType(enum.Enum):
-    FRIEND = "friend"
-    STEPS = "steps"
-    KILOMETER = "kilometer"
+    FRIEND = "Друзья"
+    STEPS = "Шаги"
+    KILOMETER = "Километры"
 
 
 class Tasks(Base):
@@ -24,6 +24,6 @@ class Tasks(Base):
     target_value = Column(Integer)
     reward = Column(Integer)
     description = Column(Text)
-    image_path = Column(String(255))
+    image_path = Column(String(255), default="null_image.png")
     # is_active = Column(Boolean, default=True)
     # valid_until = Column(DateTime)

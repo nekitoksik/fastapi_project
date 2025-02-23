@@ -29,3 +29,8 @@ UserNotFoundException = HTTPException(
     status_code=status.HTTP_401_UNAUTHORIZED,
     detail="Token does not point to user"
 )
+
+InvalidSMSCodeException = HTTPException(
+    status_code=status.HTTP_400_BAD_REQUEST,
+    detail="Неправильный смс код!"
+)

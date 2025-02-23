@@ -11,7 +11,7 @@ class Settings(BaseSettings):
 
     @model_validator(mode='after')
     def get_database_url(self) -> 'Settings':
-        self.DATABASE_URL = f'mysql+asyncmy://{self.DB_USER}:{self.DB_PASS}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}'
+        self.DATABASE_URL = f'postgresql+asyncpg://{self.DB_USER}:{self.DB_PASS}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}'
         return self
     
     SECRET_KEY: str
