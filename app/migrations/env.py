@@ -12,9 +12,11 @@ sys.path.insert(0, dirname(dirname(dirname(abspath(__file__)))))
 from app.config import settings
 
 from app.database import Base
-from app.friendship.models import Friendship
 from app.users.models import Users
 from app.tasks.models import Tasks
+from app.runstats.models import RunStats
+from app.taskProgress.models import UserTaskProgress
+from app.admins.models import Admins
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

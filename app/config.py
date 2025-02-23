@@ -14,7 +14,9 @@ class Settings(BaseSettings):
         self.DATABASE_URL = f'postgresql+asyncpg://{self.DB_USER}:{self.DB_PASS}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}'
         return self
     
-
+    SECRET_KEY: str
+    ALGORITHM: str
+    
     class Config:
         env_file = '.env'
 
